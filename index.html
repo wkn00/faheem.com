@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>elfaheem — web applications by Wael Kattan</title>
-<meta name="description" content="Web applications designed, built and self-hosted by Wael Kattan: GradeLoop, Guess My Number, الفهيم and بساط الريح.">
+<meta name="description" content="Web applications designed, built and self-hosted by Wael Kattan: Priset, GradeLoop, Guess My Number, الفهيم and بساط الريح.">
 <meta name="author" content="Wael Kattan">
 <meta name="theme-color" content="#0B0F14">
 <link rel="canonical" href="https://elfaheem.com/">
@@ -447,6 +447,119 @@ html[data-lang="en"] .ar-only { display: none !important; }
   color: var(--brand);
 }
 
+/* — Priset: guesses closing in on a price you cannot see —
+   The bars carry the game's own ladder rather than --brand: cold red,
+   warm orange, hot yellow, and the green that is also the card's accent. */
+
+.pv-priset .shot {
+  position: absolute;
+  top: 50%; left: 8%;
+  width: 32%; aspect-ratio: 4 / 3;
+  transform: translateY(-50%);
+  border: 1px solid color-mix(in srgb, var(--brand) 28%, var(--line));
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(45deg,
+      rgba(255, 255, 255, 0.035) 0 4px, transparent 4px 9px),
+    rgba(255, 255, 255, 0.03);
+  animation: pop 0.45s var(--ease) 150ms backwards;
+}
+
+/* A car in three parts: body, cabin, wheels. The cabin sits centred over
+   the body — pushed to either side it starts to read as a pickup.
+   Everything is a share of the tile, so the car keeps its proportions
+   down to the narrowest phone rather than outgrowing its own frame. */
+.pv-priset .car {
+  position: absolute;
+  bottom: 30%; left: 22.5%;
+  width: 55%; height: 14%;
+  border-radius: 5px 9px 3px 3px;
+  background: color-mix(in srgb, var(--brand) 55%, transparent);
+}
+
+.pv-priset .car::before {
+  content: "";
+  position: absolute;
+  bottom: 100%; left: 24%;
+  width: 50%; height: 80%;
+  border-radius: 9px 10px 0 0;
+  background: inherit;
+}
+
+.pv-priset .car i {
+  position: absolute;
+  top: 74%;
+  width: 13%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--brand) 85%, transparent);
+}
+
+.pv-priset .car i:first-child { left: 14%; }
+.pv-priset .car i:last-child  { right: 14%; }
+
+.pv-priset .ladder {
+  position: absolute;
+  top: 50%; right: 7%;
+  width: 45%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.pv-priset .row {
+  display: flex; align-items: center; gap: 7px;
+  animation: slidein 0.45s var(--ease) backwards;
+  animation-delay: calc(var(--n) * 300ms + 400ms);
+}
+
+.pv-priset .row i {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-style: normal;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.pv-priset .row b {
+  width: 8px;
+  font-family: var(--mono);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  color: var(--faint);
+  text-align: center;
+}
+
+.pv-priset .row.hit i,
+.pv-priset .row.hit b { color: var(--brand); }
+
+.pv-priset .track {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+.pv-priset .track u {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  text-decoration: none;
+  transform-origin: left center;
+  animation: grow 0.4s var(--ease) backwards;
+  animation-delay: calc(var(--n) * 300ms + 550ms);
+}
+
+@keyframes grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.pv-priset .t0 { width: 28%; background: #FF5842; }
+.pv-priset .t1 { width: 52%; background: #FF9A3C; }
+.pv-priset .t2 { width: 74%; background: #FFD23D; }
+.pv-priset .t3 { width: 100%; background: var(--brand); }
+
 /* — الفهيم: a question, four answers, one right — */
 
 .pv-faheem .q {
@@ -635,7 +748,49 @@ html[data-lang="en"] .ar-only { display: none !important; }
     <ul class="grid">
 
       <li>
-        <a class="card" style="--brand:#8AA6FF; --i:0" href="https://grade.elfaheem.com">
+        <a class="card" style="--brand:#35D38A; --i:0" href="https://priset.elfaheem.com">
+          <div class="pv pv-priset" aria-hidden="true">
+            <div class="shot a-shot">
+              <span class="car"><i></i><i></i></span>
+            </div>
+            <div class="ladder">
+              <div class="row a-row" style="--n:0">
+                <i>180 000</i><b>↑</b><span class="track"><u class="t0"></u></span>
+              </div>
+              <div class="row a-row" style="--n:1">
+                <i>240 000</i><b>↑</b><span class="track"><u class="t1"></u></span>
+              </div>
+              <div class="row a-row" style="--n:2">
+                <i>275 000</i><b>↑</b><span class="track"><u class="t2"></u></span>
+              </div>
+              <div class="row a-row hit" style="--n:3">
+                <i>289 000</i><b>✓</b><span class="track"><u class="t3"></u></span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h2>Priset</h2>
+            <span class="card-host">priset.elfaheem.com</span>
+            <p class="card-desc t-en">
+              Three cars a day from the Norwegian classifieds, and one question:
+              what does it cost? You get the photo and nothing else. Every guess
+              comes back coloured — cold, warm, hot — with an arrow for the way
+              you missed, and hands you one more fact about the car. Land within
+              two per cent and the round is yours.
+            </p>
+            <p class="card-desc t-ar" lang="ar">
+              ثلاث سيارات كل يوم من إعلانات البيع النرويجية، وسؤال واحد: كم ثمنها؟
+              لا تملك سوى الصورة. يعود كل تخمين بلونٍ يقول لك إن كنت بعيداً أم
+              قريباً أم على وشك، وبسهمٍ يدلّك على جهة خطئك، ويكشف لك معلومة جديدة
+              عن السيارة. فإن وقعت ضمن اثنين بالمئة من السعر كانت الجولة لك.
+            </p>
+            <p class="card-tags">React · FastAPI · SQLite · Kubernetes</p>
+          </div>
+        </a>
+      </li>
+
+      <li>
+        <a class="card" style="--brand:#8AA6FF; --i:1" href="https://grade.elfaheem.com">
           <div class="pv pv-grade" aria-hidden="true">
             <div class="code">
               <i class="a-d" style="--n:0">4</i><i class="a-d" style="--n:1">7</i><i class="a-d" style="--n:2">2</i><i class="a-d" style="--n:3">9</i><i class="a-d" style="--n:4">1</i>
@@ -666,7 +821,7 @@ html[data-lang="en"] .ar-only { display: none !important; }
       </li>
 
       <li>
-        <a class="card" style="--brand:#38BDF8; --i:1" href="https://guess.elfaheem.com">
+        <a class="card" style="--brand:#38BDF8; --i:2" href="https://guess.elfaheem.com">
           <div class="pv pv-guess" aria-hidden="true">
             <div class="board">
               <div class="g a-g" style="--n:0">
@@ -706,7 +861,7 @@ html[data-lang="en"] .ar-only { display: none !important; }
       </li>
 
       <li class="ar-only">
-        <a class="card" style="--brand:#8B5CF6; --i:2" href="https://game.elfaheem.com">
+        <a class="card" style="--brand:#8B5CF6; --i:3" href="https://game.elfaheem.com">
           <div class="pv pv-faheem" aria-hidden="true">
             <span class="q a-q"></span>
             <div class="opts">
@@ -731,7 +886,7 @@ html[data-lang="en"] .ar-only { display: none !important; }
       </li>
 
       <li class="ar-only">
-        <a class="card" style="--brand:#D9A441; --i:3" href="https://bsat.elfaheem.com">
+        <a class="card" style="--brand:#D9A441; --i:4" href="https://bsat.elfaheem.com">
           <div class="pv pv-bsat" aria-hidden="true">
             <div class="rug a-rug"></div>
             <span class="seat s0 a-seat" style="--n:0"></span>

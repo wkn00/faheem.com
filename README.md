@@ -12,7 +12,7 @@ The language toggle is not chrome, it changes what the page lists:
 
 | Language | Applications shown |
 |---|---|
-| English (default) | GradeLoop, Guess My Number |
+| English (default) | Priset, GradeLoop, Guess My Number |
 | العربية | + الفهيم, بساط الريح |
 
 الفهيم and بساط الريح are built entirely in Arabic, so they appear only on the
@@ -33,7 +33,10 @@ between languages carry a `min-height`, so toggling settles instead of jumping.
 
 Each card carries its product's own brand colour, taken from the shared registry
 in `bsatalrih-project/client/src/games-network.ts` — the chrome stays
-achromatic so four different products never look like one.
+achromatic so five different products never look like one. Priset is not in
+that registry (it lists the Arabic-facing games, for بساط الريح's promo
+slides); its `#35D38A` comes straight from Priset's own design tokens, where
+green is the correct-guess colour.
 
 ## Type
 
@@ -52,10 +55,16 @@ specificity and would otherwise drop the Arabic titles to a system fallback.
 ## The previews
 
 Every card shows its game's actual mechanic as an animated CSS illustration:
-GradeLoop's rubric filling in, the X/O marks resolving a guess, a Fahim question
-tile flipping, a carpet drifting over a board. No screenshots — the real apps
-sit behind auth walls or need a GPU — and no text inside the artwork, so the
-same illustration works in both languages.
+Priset's guesses closing on a price, GradeLoop's rubric filling in, the X/O
+marks resolving a guess, a Fahim question tile flipping, a carpet drifting over
+a board. No screenshots — the real apps sit behind auth walls or need a GPU — and
+no text inside the artwork, so the same illustration works in both languages.
+
+Priset's is the one preview that colours outside `--brand`: its bars run the
+game's own feedback ladder (red → orange → yellow → green), which *is* the
+product's signature, and the green it lands on is the card's accent anyway.
+Its car is sized in percentages of the tile rather than pixels, so it keeps
+its proportions instead of outgrowing the frame on a 320px phone.
 
 The animations are `animation-play-state: paused` until an IntersectionObserver
 adds `.play`, and hover restarts them, so nothing runs off-screen.
@@ -72,8 +81,8 @@ k8s/                namespace, deployment, service
 ## Deploy
 
 ```bash
-docker build -t ghcr.io/wkn00/elfaheem-landing:1.3.0 .
-docker push ghcr.io/wkn00/elfaheem-landing:1.3.0
+docker build -t ghcr.io/wkn00/elfaheem-landing:1.4.1 .
+docker push ghcr.io/wkn00/elfaheem-landing:1.4.1
 
 kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/deployment.yaml
