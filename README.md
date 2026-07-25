@@ -118,9 +118,11 @@ IBM Plex Sans Arabic: Reem Kufi is a name-setter, and a whole sentence of it is
 work to read.
 
 **Measure Fraunces at the size it is actually set at.** It is variable on
-optical size and the text cut is ~22% wider than the display cut — "by hand"
-is 3.03em at 100px and 3.71em at 17px. Measuring at the wrong size is what
-clipped the reveal to "by han".
+optical size and the text cut is ~22% wider than the display cut — "hand" is
+2.42em at the clamp's 16px floor and 2.37em at its 21px ceiling, and the whole
+of "by hand" swings from 3.03em at 100px to 3.71em at 17px. Measuring at the
+wrong size is what once clipped the reveal to "by han"; the box takes the
+floor's measure, because that is the widest the word ever gets.
 
 Two rules apply to Arabic everywhere: it is never letter-spaced, because
 tracking pulls the letters out of their joins, and its prose carries more
@@ -215,22 +217,28 @@ vertical seams down any wide page.
 
 ## The reveal
 
-"…built **by hand**" is only half true, so the words roll over to Anthropic's
+"…built by **hand**" is only half true, so the hand rolls over to Anthropic's
 own mark — the thing that actually did the typing. A logo rather than a name,
-so it needs no translation and both languages land on the same glyph. The word
+so it needs no translation and both languages land on the same glyph. **Only
+the hand turns over**; "by" stays put, so the sentence reads *built by ▲* and
+the mark takes the place of the hand itself rather than of the phrase. The word
 is brass with a dashed underline that breathes: the only thing on the page
 saying a word is a door.
 
 Word and mark ship stacked in a column inside a box one line tall; hovering
 slides the column up by exactly one line and resizes the box at the same time —
-inward here, since a mark is narrower than the words it replaces — so the
+inward here, since a mark is narrower than the word it replaces — so the
 sentence closes up around it rather than leaving a hole. Widths are the words'
 real measures in ems, which hold at every step of the tagline's `clamp()`.
 
-**The tagline is deliberately short enough to hold one line on any
-pointer-sized screen.** A one-line sentence can only get shorter when the box
-closes, so it can never re-wrap. At two lines it snapped back to one under the
-cursor and threw the whole hero — verified stable now from 500px to 1920px in
+**The tagline has to hold one line on any pointer-sized screen**, and its
+`max-width` is what buys that: 36rem missed the English sentence at the top of
+the font-size clamp by four pixels, which cost it a second line above 1050px,
+so it is 37rem. A one-line sentence can only get shorter when the box closes,
+so it can never re-wrap. At two lines it snaps back to one under the cursor and
+throws the whole hero — worse, the sentence leaves the pointer, the hover
+drops, the box reopens, and the line flickers between one and two for as long
+as the cursor sits there. Verified stable from 500px to 1920px in
 both languages, and worth re-checking if the copy grows. Below 34rem the
 sentence needs two lines whatever the face, so there the box simply stops
 resizing and only its contents roll: a little air after the mark, on the widths
@@ -314,8 +322,8 @@ k8s/                namespace, deployment, service
 ## Deploy
 
 ```bash
-docker build -t ghcr.io/wkn00/elfaheem-landing:1.10.0 .
-docker push ghcr.io/wkn00/elfaheem-landing:1.10.0
+docker build -t ghcr.io/wkn00/elfaheem-landing:1.10.1 .
+docker push ghcr.io/wkn00/elfaheem-landing:1.10.1
 
 kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/deployment.yaml

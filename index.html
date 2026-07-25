@@ -358,7 +358,14 @@ html[data-lang="en"] .ar-only { display: none !important; }
    and a whole sentence of it is work to read. */
 .tagline {
   margin: clamp(1.25rem, 3vw, 1.75rem) auto 0;
-  max-width: 36rem;
+  /* 36.25rem is the English sentence set on one line at the top of the
+     font-size clamp; 36rem missed it by four pixels and cost the line a
+     second row, which is the one thing the reveal below cannot survive —
+     a box that narrows under the cursor pulls a two-line tagline back to
+     one, the sentence jumps out from under the pointer, and the hover
+     flickers on and off. Two lines are fine narrower down, where the
+     box stops resizing (see the 34rem query). */
+  max-width: 37rem;
   min-height: 3.4rem;
   color: color-mix(in srgb, var(--muted) 62%, var(--chalk));
   font-family: var(--display);
@@ -375,7 +382,7 @@ html[data-lang="en"] .ar-only { display: none !important; }
 }
 
 /* ── the reveal ──────────────────────────────────────────────────
-   "…built by hand" is only half the story, so the words roll over to
+   "…built by hand" is only half the story, so the hand rolls over to
    Anthropic's own mark — the thing that actually did the typing. A
    logo rather than a name: it needs no translation, so both languages
    land on the same glyph.
@@ -383,7 +390,7 @@ html[data-lang="en"] .ar-only { display: none !important; }
    Word and mark ship stacked in a column inside a box one line tall,
    and the hover slides the column up by exactly one line. The box
    resizes at the same time — inward here, since a mark is narrower
-   than the words it replaces — so the sentence closes up around it
+   than the word it replaces — so the sentence closes up around it
    rather than leaving a hole. Widths are the words' real measures in
    ems, which hold at every step of the tagline's clamp.
 
@@ -407,13 +414,18 @@ html[data-lang="en"] .ar-only { display: none !important; }
   transition: width 0.5s var(--ease);
 }
 
-/* "by hand" measures 3.708em in Fraunces, "يدويّاً" 1.773em in Plex Arabic;
+/* Only "hand" turns over — "by" stays put, so the sentence reads
+   "built by ▲" and the mark takes the place of the hand itself.
+
+   "hand" measures 2.422em in Fraunces, "يدويّاً" 1.773em in Plex Arabic;
    the mark is square and set to the cap-ish 1.15em both sides land on.
 
    Fraunces has to be measured at the size it is actually set at. It is
-   variable on optical size, and the text cut is 22% wider than the display
-   cut — measuring at 100px gives 3.03em and clips the word to "by han". */
-.tagline.t-en .reveal { --from: 3.75em; --to: 1.15em; }
+   variable on optical size, and the text cut is wider than the display
+   cut — "hand" is 2.422em at the clamp's 16px floor but 2.365em at its
+   21px ceiling, so the box takes the floor's measure or the word clips
+   on the small screens. */
+.tagline.t-en .reveal { --from: 2.44em; --to: 1.15em; }
 .tagline.t-ar .reveal { --from: 1.82em; --to: 1.15em; }
 
 .reveal:hover, .reveal:focus { width: var(--to); }
@@ -1189,7 +1201,7 @@ html[data-lang="en"] .ar-only { display: none !important; }
           <svg class="seal" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#seal"></use></svg>
         </div>
         <h1><i style="--n:0">e</i><i style="--n:1">l</i><i style="--n:2">f</i><i style="--n:3">a</i><i style="--n:4">h</i><i style="--n:5">e</i><i style="--n:6">e</i><i style="--n:7">m</i><span class="native" lang="ar" aria-hidden="true">الفهيم</span></h1>
-        <p class="tagline t-en">Games and tools that test how clever you are, built <span class="reveal" tabindex="0"><u><span>by&nbsp;hand</span><span class="cc" aria-hidden="true"><svg viewBox="0 0 248 248" focusable="false"><use href="#claude"></use></svg></span></u></span>.</p>
+        <p class="tagline t-en">Games and tools that test how clever you are, built by&nbsp;<span class="reveal" tabindex="0"><u><span>hand</span><span class="cc" aria-hidden="true"><svg viewBox="0 0 248 248" focusable="false"><use href="#claude"></use></svg></span></u></span>.</p>
         <p class="tagline t-ar" lang="ar">ألعابٌ وأدواتٌ تختبر فطنتك، مبنيّةٌ <span class="reveal" tabindex="0"><u><span>يدويّاً</span><span class="cc" aria-hidden="true"><svg viewBox="0 0 248 248" focusable="false"><use href="#claude"></use></svg></span></u></span>.</p>
       </section>
 
